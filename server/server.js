@@ -43,3 +43,7 @@ newUser.save().then((doc) => {
 }, (err) => {
   console.log(err);
 });*/
+
+module.exports = {
+  app
+};
