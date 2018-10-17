@@ -3,6 +3,7 @@ require('./config/config');
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
+const bcrypt = require('bcryptjs');
 
 const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./models/todo');
@@ -115,6 +116,18 @@ app.get('/users/me', authenticate, (req, res) => {
 
 app.listen(port, () => {
   console.log(`Started up at port ${port}`);
+});
+
+app.post('/users/login', (req, res) => {
+  const{email, password} = req.body;
+
+  User.findByCredentials(email, password).then( user => {
+    user.generateAuthToken().then( token => {
+      return res.header('x-auth', token).send(user.toJSON());
+    });
+  }).catch( err => {
+    return res.status(400).send(err);
+  });
 });
 
 /*let newTodo = new Todo({
