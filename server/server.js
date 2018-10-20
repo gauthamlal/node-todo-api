@@ -126,10 +126,6 @@ app.get('/users/me', authenticate, (req, res) => {
   res.send(req.user);
 });
 
-app.listen(port, () => {
-  console.log(`Started up at port ${port}`);
-});
-
 app.post('/users/login', (req, res) => {
   const{email, password} = req.body;
 
@@ -148,6 +144,10 @@ app.delete('/users/me/token', authenticate, (req, res) => {
   }, () => {
     res.status(400);
   });
+});
+
+app.listen(port, () => {
+  console.log(`Started up at port ${port}`);
 });
 
 /*let newTodo = new Todo({
